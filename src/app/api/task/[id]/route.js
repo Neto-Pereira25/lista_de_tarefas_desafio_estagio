@@ -1,7 +1,7 @@
 import Task from "@/models/Task";
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function PUT(request) {
     try {
         const data = await request.json();
         const { name, cost, deadline_date } = data;
@@ -26,14 +26,7 @@ export async function POST(request) {
             );
         }
 
-        const lastTask = await Task.findOne({
-            order: [['presentation_order', 'DESC']],
-            limit: 1
-        });
-
-        const newPresentationOrder = 
-        !lastTask ? 1 : lastTask.presentation_order + 1;
-
+        
         // criando a nova tarefa
         const newTask = await Task.create({
             "name": name,
@@ -51,7 +44,7 @@ export async function POST(request) {
     }
 }
 
-export async function GET() {
+export async function DELETE() {
     try {
         const tasks = await Task.findAll();
         return NextResponse.json(tasks, { status: 200 });
